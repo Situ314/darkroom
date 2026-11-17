@@ -18,6 +18,25 @@ generation is billed at Pixelforge's exact cost + 25%, down to the nano-dollar.
 - **Ledger** _(stretch, admin report)_: credit spend, provider cost and profit per day and per user,
   reconciled line by line against Pixelforge's `GET /v1/usage`.
 
+## Accounts
+
+Anyone can create an account at **`/register`** (the **Get $1 free** button on the home page):
+name, email and password. There is no email verification, so you are logged in straight away,
+on the Develop page, with $1.00 of welcome credit. In production the password needs at least
+12 characters, upper and lower case letters, a number and a symbol.
+
+**Admin accounts.** The Ledger (`/admin/report`) is only for operators. An account is an admin
+if its email is listed in `ADMIN_EMAILS` (comma-separated). This deployment reserves these
+addresses for operators. Register with any of them to get the Ledger:
+
+- `admin@pixelforge.com`
+- `operator@pixelforge.com`
+- `reviewer@pixelforge.com`
+
+Because emails are not verified, whoever registers an address first owns that account. Claim
+the ones you need, and remove unused ones from `ADMIN_EMAILS`. An existing account can also be
+made admin with `php artisan app:make-admin you@example.com` (`--revoke` to undo).
+
 ## How billing works
 
 |               |                                                                                                                                                    |
@@ -52,7 +71,7 @@ key's webhook URL in the Pixelforge dashboard and copy the signing secret into
 `PIXELFORGE_WEBHOOK_SECRET`. Without webhooks the app still works: it polls
 generations it hasn't heard about in 45 to 60 seconds.
 
-Admin access: `php artisan app:make-admin you@example.com`, or list emails in `ADMIN_EMAILS`.
+Admin access: see [Accounts](#accounts).
 
 ### Testing
 
