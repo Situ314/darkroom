@@ -5,6 +5,14 @@ FROM dunglas/frankenphp:1-php8.4-bookworm
 
 RUN install-php-extensions pdo_pgsql pdo_sqlite intl zip pcntl bcmath opcache
 
+# The image gives frankenphp a file capability so it can bind ports below 1024.
+# Hosts that run containers with no-new-privileges (Render does) refuse to exec
+# such binaries ("Operation not permitted"). We listen on $PORT, so drop it.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libcap2-bin \
+    && setcap -r /usr/local/bin/frankenphp \
+    && rm -rf /var/lib/apt/lists/*
+
 # Node is only needed to build the frontend. Wayfinder runs `php artisan`
 # during the Vite build, so PHP and Node have to live in the same stage.
 COPY --from=node:22-bookworm-slim /usr/local/bin/node /usr/local/bin/node
