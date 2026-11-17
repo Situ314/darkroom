@@ -7,7 +7,7 @@ import { report } from '@/routes/admin';
 
 defineOptions({
     layout: {
-        breadcrumbs: [{ title: 'Admin report', href: report() }],
+        breadcrumbs: [{ title: 'Ledger', href: report() }],
     },
 });
 
@@ -66,14 +66,13 @@ const allMatch = () =>
 </script>
 
 <template>
-    <Head title="Admin report" />
+    <Head title="Ledger" />
 
-    <div class="flex flex-col gap-6 p-4">
+    <div class="flex flex-col gap-6 px-4 py-6 lg:px-8">
         <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
-                <h1 class="text-lg font-semibold tracking-tight">
-                    Spend, cost &amp; profit
-                </h1>
+                <p class="film-label">Operators only</p>
+                <h1 class="display mt-2 text-5xl">The ledger</h1>
                 <p class="text-sm text-muted-foreground">
                     {{ range.start }} → {{ range.end }} (UTC, by completion day
                     — same as Pixelforge's <code>/v1/usage</code>)
@@ -116,13 +115,13 @@ const allMatch = () =>
                     },
                 ]"
                 :key="card.label"
-                class="rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border"
+                class="print p-4"
             >
-                <div class="text-xs text-muted-foreground">
+                <div class="film-label">
                     {{ card.label }}
                 </div>
                 <div
-                    class="mt-1 text-xl font-semibold tabular-nums"
+                    class="mt-1 font-mono text-xl font-medium"
                     :title="formatUsdExact(card.value)"
                 >
                     {{ formatUsd(card.value) }}
@@ -157,12 +156,10 @@ const allMatch = () =>
             }}
         </div>
 
-        <section
-            class="overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-        >
-            <h2 class="border-b px-4 py-3 text-sm font-medium">By day</h2>
+        <section class="print overflow-hidden">
+            <h2 class="film-label border-b px-4 py-3">By day (UTC)</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm whitespace-nowrap">
+                <table class="w-full font-mono text-xs whitespace-nowrap">
                     <thead class="text-left text-xs text-muted-foreground">
                         <tr class="border-b">
                             <th class="px-4 py-2 font-normal">Date</th>
@@ -231,12 +228,10 @@ const allMatch = () =>
             </div>
         </section>
 
-        <section
-            class="overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-        >
-            <h2 class="border-b px-4 py-3 text-sm font-medium">By user</h2>
+        <section class="print overflow-hidden">
+            <h2 class="film-label border-b px-4 py-3">By user</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm whitespace-nowrap">
+                <table class="w-full font-mono text-xs whitespace-nowrap">
                     <thead class="text-left text-xs text-muted-foreground">
                         <tr class="border-b">
                             <th class="px-4 py-2 font-normal">User</th>

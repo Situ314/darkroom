@@ -12,8 +12,15 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
             fonts: [
-                bunny('Instrument Sans', {
+                bunny('Space Grotesk', {
                     weights: [400, 500, 600],
+                }),
+                bunny('Instrument Serif', {
+                    weights: [400],
+                    styles: ['normal', 'italic'],
+                }),
+                bunny('JetBrains Mono', {
+                    weights: [400, 500],
                 }),
             ],
         }),

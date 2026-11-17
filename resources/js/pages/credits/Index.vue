@@ -39,18 +39,19 @@ const date = (iso: string) =>
 <template>
     <Head title="Credits" />
 
-    <div class="flex max-w-3xl flex-col gap-6 p-4">
+    <div class="flex max-w-3xl flex-col gap-8 px-4 py-6 lg:px-8">
+        <header>
+            <p class="film-label">Account</p>
+            <h1 class="display mt-2 text-5xl">Credits</h1>
+        </header>
+
         <div class="grid gap-4 sm:grid-cols-2">
-            <div
-                class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border"
-            >
-                <div
-                    class="flex items-center gap-2 text-sm text-muted-foreground"
-                >
-                    <Wallet class="size-4" /> Balance
+            <div class="print p-5">
+                <div class="film-label flex items-center gap-2">
+                    <Wallet class="size-3.5" /> Balance
                 </div>
                 <div
-                    class="mt-2 text-3xl font-semibold tabular-nums"
+                    class="mt-2 font-mono text-4xl font-medium"
                     :title="formatUsdExact(balanceNanos)"
                 >
                     {{ formatUsd(balanceNanos, 2) }}
@@ -64,10 +65,8 @@ const date = (iso: string) =>
                 </p>
             </div>
 
-            <div
-                class="rounded-xl border border-sidebar-border/70 p-5 dark:border-sidebar-border"
-            >
-                <div class="text-sm text-muted-foreground">Buy credits</div>
+            <div class="print p-5">
+                <div class="film-label">Buy credits</div>
                 <div class="mt-3 flex flex-wrap gap-2">
                     <Form
                         v-for="pack in packs"
@@ -92,12 +91,10 @@ const date = (iso: string) =>
             </div>
         </div>
 
-        <section
-            class="overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-        >
-            <h2 class="border-b px-4 py-3 text-sm font-medium">Activity</h2>
+        <section class="print overflow-hidden">
+            <h2 class="film-label border-b px-4 py-3">Ledger</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="w-full font-mono text-xs">
                     <thead class="text-left text-xs text-muted-foreground">
                         <tr class="border-b">
                             <th class="px-4 py-2 font-normal">Date</th>

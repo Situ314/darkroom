@@ -1,4 +1,4 @@
-# Pixel Studio
+# Darkroom
 
 An image generation app built on the [Pixelforge](https://pixelforge.promptedit.dev/docs) API.
 Users write a prompt, see what it will cost, and watch the image come in live. Every
@@ -8,26 +8,26 @@ generation is billed at Pixelforge's exact cost + 25%, down to the nano-dollar.
 
 ## Features
 
-- **Generate**: prompt, size, quality, up to 4 reference image URLs, and a live price
+- **Develop** (generate): prompt, size, quality, up to 4 reference image URLs, and a live price
   range (min to max) that updates as you type.
-- **History**: every generation with live status (queued, processing, succeeded, failed),
+- **Prints** (history): every generation with live status (queued, processing, succeeded, failed),
   estimated vs actual cost, and the image.
 - **Webhooks**: signature-verified, idempotent, and order-independent.
-- **Balances** *(stretch)*: welcome credit, fake "Buy credits", credit held for in-flight
+- **Balances** _(stretch)_: welcome credit, fake "Buy credits", credit held for in-flight
   images, generation blocked when you can't afford the worst case.
-- **Admin report** *(stretch)*: credit spend, provider cost and profit per day and per user,
+- **Ledger** _(stretch, admin report)_: credit spend, provider cost and profit per day and per user,
   reconciled line by line against Pixelforge's `GET /v1/usage`.
 
 ## How billing works
 
-| | |
-|---|---|
-| Unit | Integer **nano-dollars** (1 USD = 1,000,000,000). Pixelforge reports 9 decimals, so this is exact. |
-| Provider cost | `Σ tokens × rate / 1M`, using the **rates stored on the generation** (fixed at creation). |
-| User price | `provider cost × 1.25`, rounded **up** to the next nano-dollar. |
-| Estimate | Output and reference-image tokens are exact. Text is `ceil(chars/4)` ±15% and reasoning is a per-quality range, so we show a **min to max** range. |
-| Hold | The estimate's **max** is reserved from the balance while the image is in flight. |
-| Failed | Costs nothing. Only `succeeded` is charged, exactly once. |
+|               |                                                                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unit          | Integer **nano-dollars** (1 USD = 1,000,000,000). Pixelforge reports 9 decimals, so this is exact.                                                 |
+| Provider cost | `Σ tokens × rate / 1M`, using the **rates stored on the generation** (fixed at creation).                                                          |
+| User price    | `provider cost × 1.25`, rounded **up** to the next nano-dollar.                                                                                    |
+| Estimate      | Output and reference-image tokens are exact. Text is `ceil(chars/4)` ±15% and reasoning is a per-quality range, so we show a **min to max** range. |
+| Hold          | The estimate's **max** is reserved from the balance while the image is in flight.                                                                  |
+| Failed        | Costs nothing. Only `succeeded` is charged, exactly once.                                                                                          |
 
 ## Running locally
 

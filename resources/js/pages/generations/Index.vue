@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head, Link, usePoll } from '@inertiajs/vue3';
-import { History } from '@lucide/vue';
 import { computed, watch } from 'vue';
 import GenerationCard from '@/components/GenerationCard.vue';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import type { Generation, Paginated } from '@/types';
 
 defineOptions({
     layout: {
-        breadcrumbs: [{ title: 'History', href: index() }],
+        breadcrumbs: [{ title: 'Prints', href: index() }],
     },
 });
 
@@ -35,44 +34,47 @@ watch(hasActive, (active) => (active ? start() : stop()), { immediate: true });
 </script>
 
 <template>
-    <Head title="History" />
+    <Head title="Prints" />
 
-    <div class="flex flex-col gap-6 p-4">
+    <div class="flex flex-col gap-8 px-4 py-6 lg:px-8">
         <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
-                <h1 class="text-lg font-semibold tracking-tight">History</h1>
-                <p class="text-sm text-muted-foreground">
-                    {{ totals.count }} generation{{
-                        totals.count === 1 ? '' : 's'
+                <p class="film-label">Contact sheet</p>
+                <h1 class="display mt-2 text-5xl">Every print</h1>
+                <p class="mt-3 font-mono text-xs text-muted-foreground">
+                    {{ totals.count }} EXPOSURE{{
+                        totals.count === 1 ? '' : 'S'
                     }}
-                    · spent
+                    · SPENT
                     <span
-                        class="font-medium text-foreground tabular-nums"
+                        class="text-foreground"
                         :title="formatUsdExact(totals.spent_nanos)"
                     >
                         {{ formatUsd(totals.spent_nanos) }}
                     </span>
                 </p>
             </div>
-            <Button as-child>
-                <Link :href="create()">New image</Link>
-            </Button>
+            <Link
+                :href="create()"
+                class="flex h-11 items-center gap-2 bg-primary px-5 font-medium text-primary-foreground hover:brightness-110"
+            >
+                <span class="size-2 rounded-full bg-current" /> New exposure
+            </Link>
         </div>
 
         <div
             v-if="!generations.data.length"
-            class="flex min-h-64 flex-col items-center justify-center gap-2 rounded-xl border border-dashed text-sm text-muted-foreground"
+            class="flex min-h-80 flex-col items-center justify-center gap-3 border border-dashed text-sm text-muted-foreground"
         >
-            <History class="size-6" />
-            Nothing here yet.
-            <Link :href="create()" class="underline underline-offset-4">
-                Generate your first image
+            <span class="display text-3xl">The sheet is empty</span>
+            <Link :href="create()" class="text-primary hover:underline">
+                Develop your first print →
             </Link>
         </div>
 
         <div
             v-else
-            class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+            class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
         >
             <GenerationCard
                 v-for="generation in generations.data"

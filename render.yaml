@@ -1,12 +1,12 @@
 services:
     - type: web
-      name: pixel-studio
+      name: darkroom
       runtime: docker
       plan: free
       healthCheckPath: /up
       envVars:
           - key: APP_NAME
-            value: Pixel Studio
+            value: Darkroom
           - key: APP_ENV
             value: production
           - key: APP_DEBUG

@@ -42,6 +42,10 @@ function withMarkup(nanos: number, markup: string): number {
 export type Estimate = {
     min: TokenUsage;
     max: TokenUsage;
+    /** Pixelforge's cost, before our markup. */
+    providerMinNanos: number;
+    providerMaxNanos: number;
+    /** What the user pays (provider cost × markup, rounded up). */
     minNanos: number;
     maxNanos: number;
 };
@@ -77,10 +81,15 @@ export function estimate(
         reasoning_tokens: reasoning.max,
     };
 
+    const providerMinNanos = providerCost(min, rates);
+    const providerMaxNanos = providerCost(max, rates);
+
     return {
         min,
         max,
-        minNanos: withMarkup(providerCost(min, rates), markup),
-        maxNanos: withMarkup(providerCost(max, rates), markup),
+        providerMinNanos,
+        providerMaxNanos,
+        minNanos: withMarkup(providerMinNanos, markup),
+        maxNanos: withMarkup(providerMaxNanos, markup),
     };
 }

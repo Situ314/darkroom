@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { ChartColumn, History, Sparkles, Wallet } from '@lucide/vue';
+import { BookText, GalleryHorizontalEnd, Lightbulb, Wallet } from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -23,11 +23,11 @@ import type { NavItem } from '@/types';
 const page = usePage();
 
 const mainNavItems = computed<NavItem[]>(() => [
-    { title: 'Generate', href: create(), icon: Sparkles },
-    { title: 'History', href: history(), icon: History },
+    { title: 'Develop', href: create(), icon: Lightbulb },
+    { title: 'Prints', href: history(), icon: GalleryHorizontalEnd },
     { title: 'Credits', href: credits(), icon: Wallet },
     ...(page.props.auth.isAdmin
-        ? [{ title: 'Admin report', href: report(), icon: ChartColumn }]
+        ? [{ title: 'Ledger', href: report(), icon: BookText }]
         : []),
 ]);
 
@@ -59,7 +59,7 @@ const balance = computed(() => page.props.balanceNanos as number | null);
                         <Link :href="credits()">
                             <Wallet />
                             <span>Balance</span>
-                            <span class="ml-auto font-medium tabular-nums">
+                            <span class="ml-auto font-mono text-xs">
                                 {{ formatUsd(balance, 2) }}
                             </span>
                         </Link>

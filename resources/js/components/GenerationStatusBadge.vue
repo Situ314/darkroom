@@ -1,56 +1,65 @@
 <script setup lang="ts">
-import { CircleCheck, CircleX, Clock, LoaderCircle } from '@lucide/vue';
 import { computed } from 'vue';
 import type { GenerationStatus } from '@/types';
 
 const props = defineProps<{ status: GenerationStatus }>();
 
-const config = computed(() => {
+const stamp = computed(() => {
     switch (props.status) {
         case 'pending':
         case 'queued':
-            // "pending" = waiting on our side for a free slot at Pixelforge. To the user it's just queued.
             return {
                 label: 'Queued',
-                icon: Clock,
-                class: 'bg-muted text-muted-foreground',
-                spin: false,
+                class: 'border-muted-foreground/50 text-muted-foreground',
+                dot: 'bg-muted-foreground',
+                pulse: false,
             };
         case 'processing':
             return {
                 label: 'Processing',
-                icon: LoaderCircle,
-                class: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-                spin: true,
+                class: 'border-primary/60 text-primary',
+                dot: 'bg-primary',
+                pulse: true,
             };
         case 'succeeded':
             return {
                 label: 'Succeeded',
-                icon: CircleCheck,
-                class: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-                spin: false,
+                class: 'border-ok/60 text-ok',
+                dot: 'bg-ok',
+                pulse: false,
             };
         default:
             return {
                 label: 'Failed',
-                icon: CircleX,
-                class: 'bg-red-500/10 text-red-600 dark:text-red-400',
-                spin: false,
+                class: 'border-destructive/60 text-destructive',
+                dot: 'bg-destructive',
+                pulse: false,
             };
     }
 });
+
+const realStatus = computed(() =>
+    props.status === 'pending' ? 'queued' : props.status,
+);
 </script>
 
 <template>
     <span
-        class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium"
-        :class="config.class"
+        class="inline-flex items-center gap-1.5 rounded-[2px] border bg-card/90 px-1.5 py-0.5 font-mono text-[0.625rem] tracking-[0.14em] uppercase backdrop-blur"
+        :class="stamp.class"
+        :title="`Status: ${realStatus}`"
     >
-        <component
-            :is="config.icon"
-            class="size-3.5"
-            :class="{ 'animate-spin': config.spin }"
-        />
-        {{ config.label }}
+        <span class="relative flex size-1.5">
+            <span
+                v-if="stamp.pulse"
+                class="absolute inline-flex size-full animate-ping rounded-full opacity-75"
+                :class="stamp.dot"
+            />
+            <span
+                class="relative inline-flex size-1.5 rounded-full"
+                :class="stamp.dot"
+            />
+        </span>
+        {{ stamp.label }}
     </span>
 </template>
